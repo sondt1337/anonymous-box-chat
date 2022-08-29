@@ -1,4 +1,4 @@
-## box-chat
+# box-chat
 ## Giao tiếp trực tiếp (có hạn chế thời gian refresh lại trang (180s))
 
 ## Xem demo trực tiếp tại: [Demo](http://dinhthaison.glitch.me/)
