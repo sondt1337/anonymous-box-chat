@@ -1,7 +1,7 @@
 ## box-chat
-### Giao tiếp trực tiếp (có hạn chế thời gian refresh lại trang (180s))
+## Giao tiếp trực tiếp (có hạn chế thời gian refresh lại trang (180s))
 
-### Xem demo trực tiếp tại: [Demo](http://dinhthaison.glitch.me/)
+## Xem demo trực tiếp tại: [Demo](http://dinhthaison.glitch.me/)
 - - -
 ## Hướng dẫn sử dụng:
 Mỗi lần Refresh lại trang sẽ phải nhập nickname 1 lần:
@@ -31,5 +31,5 @@ Trong khi đó, tại Network --> WS, chúng ta bắt được sự kiện (Lý 
 
 Và đó là cách hoạt động (backend) của trang web này
 
-### Tác giả
+# Tác giả
 [Dinh Thai Son](https://iamironman1233.github.io/page/about/)
