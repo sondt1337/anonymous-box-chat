@@ -28,4 +28,4 @@ Trong khi đó, tại WS của Network, chúng ta bắt được sự kiện (L�
 
 ![image](https://user-images.githubusercontent.com/87920408/187263007-6d99b6e8-a4b6-4a89-969e-59847ef14703.png)
 
-Và đó là cách hoạt động của trang web này
+Và đó là cách hoạt động (backend) của trang web này
