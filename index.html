@@ -7,12 +7,15 @@
     <title>Anonymous Chat</title>
   </head>
   <body>
+    
+    <!-- Cơ chế Refress lại trang sau 180s để bảo vệ tính ẩn danh-->
     <script type="text/javascript">
       function reFresh() {
         window.open(location.reload(true));
       }
       window.setInterval("reFresh()",180000);
     </script>
+    
 
     <div class="container">
       <div class="navbar">
@@ -108,10 +111,15 @@
   </body>
 
   <script src="/socket.io/socket.io.js"></script>
+  <!--Sử dụng socket.io, tham khảo thêm tại: https://socket.io/ -->
   <script>
     const socket = io();
+    <!-- Đưa ra alert nhập nickname cho mỗi lần chat -->
     const name = prompt("Nhập nickname của bạn vào đây nào, đừng để trống nhé ~_~");
+    
+    <!-- Nếu tên nhập vào là ký tự trống, sau khi chat sẽ không được và phải nhập lại tên (Vì sẽ refresh lại trang luôn) -->
     if(name == "") name = "123";
+   
     const chatForm = document.querySelector("#chat-form");
     const chatMes = document.querySelector("#chat-mes");
 
@@ -128,6 +136,7 @@
     const messages = document.querySelector("#messages");
     socket.on("user-chat", (message) => {
       const chatItem = document.createElement("li");
+      <!--In message của từng user bằng format nickname: message-->
       chatItem.textContent = `${message.name}: ${message.message}`;
       messages.appendChild(chatItem);
     });
