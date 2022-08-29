@@ -1,5 +1,6 @@
 ## box-chat
 ### Giao tiếp trực tiếp (có hạn chế thời gian refresh lại trang (180s))
+
 ### Xem demo trực tiếp tại: [Demo](http://dinhthaison.glitch.me/)
 - - -
 ## Hướng dẫn sử dụng:
@@ -24,8 +25,11 @@ Khi có từ 2 thiết bị (Hoặc đơn giản là có thể trên cùng 1 má
 
 ![image](https://user-images.githubusercontent.com/87920408/187262952-ef7d55f4-0be0-428f-9fdd-404fd4373330.png)
 
-Trong khi đó, tại WS của Network, chúng ta bắt được sự kiện (Lý do từ code trong index.js)
+Trong khi đó, tại Network --> WS, chúng ta bắt được sự kiện (Lý do từ code trong index.js)
 
-![image](https://user-images.githubusercontent.com/87920408/187263007-6d99b6e8-a4b6-4a89-969e-59847ef14703.png)
+![image](https://user-images.githubusercontent.com/87920408/187267372-c4eb561d-a123-40a3-b60b-488712fa0cad.png)
 
 Và đó là cách hoạt động (backend) của trang web này
+
+### Tác giả
+[Dinh Thai Son](https://iamironman1233.github.io/page/about/)
