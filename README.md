@@ -1,6 +1,6 @@
 ## box-chat
-### Giao tiếp trực tiếp (có thời hạn chế thời gian refresh lại trang)
-### Xem demo tại: [Demo](http://dinhthaison.glitch.me/)
+### Giao tiếp trực tiếp (có hạn chế thời gian refresh lại trang (180s))
+### Xem demo trực tiếp tại: [Demo](http://dinhthaison.glitch.me/)
 - - -
 ## Hướng dẫn sử dụng:
 Mỗi lần Refresh lại trang sẽ phải nhập nickname 1 lần:
