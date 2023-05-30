@@ -32,4 +32,4 @@ Trong khi đó, tại Network --> WS, chúng ta bắt được sự kiện (Lý 
 Và đó là cách hoạt động (backend) của trang web này
 
 # Tác giả
-[Dinh Thai Son](https://iamironman1233.github.io/page/about/)
+Author: [Son Dinh Thai](https://iamironman1233.github.io/page/about/)
