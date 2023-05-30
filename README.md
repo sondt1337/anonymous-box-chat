@@ -5,7 +5,7 @@ Có hạn chế thời gian refresh lại trang (180s)
 Trang web [Demo](http://dinhthaison.glitch.me/)
 - - -
 ## Hướng dẫn sử dụng
-Website hạy bằng NodeJS
+Website hạy bằng NodeJS, vì trang web chưa có cơ chế kiểm tra IP nên với mỗi tab có thể là 1 acc khác nhau
 
 Mỗi lần Refresh lại trang sẽ phải nhập nickname 1 lần (Đảm bảo tính nặc danh)
 
