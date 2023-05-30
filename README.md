@@ -1,9 +1,12 @@
 # anonymous-box-chat
 ### Giao tiếp trực tiếp 
 Có hạn chế thời gian refresh lại trang (180s)
-### Xem demo trực tiếp tại: [Demo](http://dinhthaison.glitch.me/)
+### Demo
+Trang web [Demo](http://dinhthaison.glitch.me/)
 - - -
-## Hướng dẫn sử dụng:
+## Hướng dẫn sử dụng
+Website hạy bằng NodeJS
+
 Mỗi lần Refresh lại trang sẽ phải nhập nickname 1 lần (Đảm bảo tính nặc danh)
 
 ![image](https://user-images.githubusercontent.com/87920408/187262409-27e450d9-a443-459c-ac55-b47a301a6fa5.png)
