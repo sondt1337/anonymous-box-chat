@@ -9,12 +9,11 @@ Website hạy bằng NodeJS, vì trang web chưa có cơ chế kiểm tra IP nê
 
 Mỗi lần Refresh lại trang sẽ phải nhập nickname 1 lần (Đảm bảo tính nặc danh)
 
-![image](https://user-images.githubusercontent.com/87920408/187262409-27e450d9-a443-459c-ac55-b47a301a6fa5.png)
+![](img/image1.png)
 
 Giao diện (Bấm vào để xem cho rõ)
 
-![image](https://user-images.githubusercontent.com/87920408/187262329-5143ba3f-3791-48d2-b6a9-4602328a245d.png)
-
+![](img/image.png)
 Cơ chế Refresh lại trang sau 180s:
 ```
 <script type="text/javascript">
@@ -34,5 +33,11 @@ Trong khi đó, tại Network --> WS, chúng ta bắt được sự kiện (Lý 
 
 Và đó là cách hoạt động (backend) của trang web này
 
+## Deployment
+```
+npm instal
+node .\index.js
+```
+Trang web được khởi chạy trên `localhost:8000`
 # Tác giả
-Author: [Son Dinh Thai](https://iamironman1233.github.io/page/about/)
+Son Dinh Thai: sondinh99999@gmail.com
