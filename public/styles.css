@@ -1,0 +1,95 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f2f2f2;
+}
+
+.container {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    flex: 1;
+    /* Đảm bảo khung chứa mở rộng để chiếm hết không gian có thể của body */
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 5px;
+    text-align: center;
+}
+
+#chat-form {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.main {
+    padding: 20px;
+    background-image: url("https://3.bp.blogspot.com/-LfrcTdS8hGk/XWKHgPBPLXI/AAAAAAAADcA/qaSw2CPZnpYnXeJTYnaq6TwFHvXggOtUACLcBGAs/s1600/1566738191594.jpg");
+    background-size: cover;
+    background-position: center;
+    flex: 1;
+    /* Đảm bảo khung chứa mở rộng để chiếm hết không gian có thể của body */
+    overflow-y: auto;
+    height: calc(100vh - 60px);
+    position: relative;
+}
+
+h1 {
+    border-style: solid;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    margin-top: 20px;
+}
+
+form input {
+    flex: 1;
+    border: 1px solid #555;
+    padding: 10px;
+    border-radius: 5px 0 0 5px;
+}
+
+#send-chat {
+    color: #fff;
+    background: #4CAF50;
+    border: none;
+    padding: 10px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+#messages {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+#messages li {
+    background-color: #94aad6;
+    color: #000;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+#messages li:nth-child(odd) {
+    background-color: #8273b0;
+}

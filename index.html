@@ -1,144 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Anonymous Chat</title>
-  </head>
-  <body>
-    
-    <!-- Cơ chế Refress lại trang sau 180s để bảo vệ tính ẩn danh-->
-    <script type="text/javascript">
-      function reFresh() {
-        window.open(location.reload(true));
-      }
-      window.setInterval("reFresh()",180000);
-    </script>
-    
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
 
+<body>
     <div class="container">
-      <div class="navbar">
-        <h1>Chat Ẩn Danh - Refresh sau 180s</h1>
-      </div>
+        <div class="navbar">
+            <h1>Chat Ẩn Danh - Refresh sau 180s</h1>
+        </div>
 
-      <div class="main">
-        <ul id="messages"></ul>
-        <form id="chat-form">
-          <input type="text" id="chat-mes" />
-          <button id="send-chat">Gửi</button>
-        </form>
-      </div>
+        <div class="main">
+            <ul id="messages"></ul>
+            <form id="chat-form">
+                <input type="text" id="chat-mes" placeholder="Nhập tin nhắn của bạn..." />
+                <button id="send-chat">Gửi</button>
+            </form>
+        </div>
     </div>
-
-    <style>
-      .container {
-        width: 100%;
-        margin: auto;
-      }
-
-      .navbar {
-        overflow: hidden;
-        background-color: #cccccc;
-        position: fixed;
-        top: 0;
-        width: 100%;
-      }
-
-      .navbar a {
-        float: left;
-        display: block;
-        color: #f2f2f2;
-        text-align: center;
-        padding: 2px 2px;
-        text-decoration: none;
-        font-size: 20px;
-      }
-
-      .main {
-        padding: 3px;
-        margin-top: 30px;
-        height: 1500px;
-        background-image: url("https://3.bp.blogspot.com/-LfrcTdS8hGk/XWKHgPBPLXI/AAAAAAAADcA/qaSw2CPZnpYnXeJTYnaq6TwFHvXggOtUACLcBGAs/s1600/1566738191594.jpg");
-      }
-      h1 {
-        border-style: solid;
-        text-align: center;
-      }
-      * {
-        margin: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font: 13px Helvetica, Arial;
-      }
-      form {
-        background: #000;
-        padding: 3px;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-      }
-      form input {
-        border: 0;
-        padding: 9px;
-        width: 90%;
-        margin-right: 0.5%;
-        margin-left: 5%;
-      }
-      form #send-chat {
-        color: #fff;
-        background: #000000;
-        border: none;
-        padding: 8px;
-        width: 3%;
-      }
-      #messages {
-        list-style-type: none;
-        margin-bottom: 50px;
-        padding: 0px;
-        bottom: 0;
-        margin-top: 0;
-      }
-      #messages li {
-        background-color: #94aad6;
-        padding: 5px 10px;
-      }
-      #messages li:nth-child(odd) {
-        background-color: #8273b0;
-      }
-    </style>
-  </body>
-
-  <script src="/socket.io/socket.io.js"></script>
-  <!--Sử dụng socket.io, tham khảo thêm tại: https://socket.io/ -->
-  <script>
+</body>
+<script type="text/javascript">
+    function reFresh() {
+        window.open(location.reload(true));
+    }
+    window.setInterval("reFresh()", 180000);
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
     const socket = io();
-    <!-- Đưa ra alert nhập nickname cho mỗi lần chat -->
-    const name = prompt("Nhập nickname của bạn vào đây nào, đừng để trống nhé ~_~");
-    
-    <!-- Nếu tên nhập vào là ký tự trống, sau khi chat sẽ không được và phải nhập lại tên (Vì sẽ refresh lại trang luôn) -->
-    if(name == "") name = "123";
-   
+    let name = prompt("Nhập nickname của bạn vào đây nào, đừng để trống nhé ~_~");
+
+    if (name.trim() === "") {
+        name = "Khách";
+    }
+
     const chatForm = document.querySelector("#chat-form");
     const chatMes = document.querySelector("#chat-mes");
+    const messages = document.querySelector("#messages");
 
     chatForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const message = chatMes.value;
-      socket.emit("on-chat", {
-        name,
-        message,
-      });
-      chatMes.value = "";
+        e.preventDefault();
+        const message = chatMes.value;
+        socket.emit("on-chat", {
+            name,
+            message
+        });
+        chatMes.value = "";
     });
 
-    const messages = document.querySelector("#messages");
     socket.on("user-chat", (message) => {
-      const chatItem = document.createElement("li");
-      <!--In message của từng user bằng format nickname: message-->
-      chatItem.textContent = `${message.name}: ${message.message}`;
-      messages.appendChild(chatItem);
+        const chatItem = document.createElement("li");
+        chatItem.textContent = `${message.name}: ${message.message}`;
+        messages.appendChild(chatItem);
+        messages.scrollTop = messages.scrollHeight; // Tự động cuộn xuống tin nhắn mới
+        chatMes.focus(); // Optional: Focus on the input field
     });
-  </script>
+</script>
+
+</body>
+
 </html>
