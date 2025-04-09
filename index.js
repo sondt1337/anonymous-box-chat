@@ -13,12 +13,18 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-    console.log("user connected");
+    console.log("User connected:", socket.id);
+    
     socket.on("on-chat", (data) => {
+        // Broadcast the message to all connected clients
         io.emit("user-chat", data);
+    });
+    
+    socket.on("disconnect", () => {
+        console.log("User disconnected:", socket.id);
     });
 });
 
 server.listen(8000, () => {
-    console.log("listening on port 8000");
+    console.log("Server running on http://localhost:8000");
 });

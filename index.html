@@ -1,67 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anonymous Chat</title>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonymous Box Chat</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/styles.css">
 </head>
-
 <body>
-    <div class="container">
+    <!-- Welcome Screen -->
+    <div class="welcome-container" id="welcome-screen">
+        <div class="welcome-card">
+            <h2>Welcome to Anonymous Chat</h2>
+            <p>Enter your nickname to start chatting</p>
+            <input type="text" id="nickname" placeholder="Your nickname..." autocomplete="off">
+            <button id="start-chat">Start Chatting <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Main Chat Interface -->
+    <div class="container" id="chat-container" style="display: none;">
         <div class="navbar">
-            <h1>Chat Ẩn Danh - Refresh sau 180s</h1>
+            <h1><i class="fas fa-comments"></i> Anonymous Box Chat</h1>
+            <p id="user-info" class="mb-0">Chatting as: <span id="display-name"></span></p>
         </div>
 
         <div class="main">
             <ul id="messages"></ul>
-            <form id="chat-form">
-                <input type="text" id="chat-mes" placeholder="Nhập tin nhắn của bạn..." />
-                <button id="send-chat">Gửi</button>
-            </form>
         </div>
+
+        <form id="chat-form">
+            <input type="text" id="chat-message" placeholder="Type your message..." autocomplete="off">
+            <button id="send-chat">Send <i class="fas fa-paper-plane"></i></button>
+        </form>
     </div>
-</body>
-<script type="text/javascript">
-    function reFresh() {
-        window.open(location.reload(true));
-    }
-    window.setInterval("reFresh()", 180000);
-</script>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    const socket = io();
-    let name = prompt("Nhập nickname của bạn vào đây nào, đừng để trống nhé ~_~");
 
-    if (name.trim() === "") {
-        name = "Khách";
-    }
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        // Auto refresh after 180 seconds
+        function reFresh() {
+            window.location.reload(true);
+        }
+        window.setInterval("reFresh()", 180000);
 
-    const chatForm = document.querySelector("#chat-form");
-    const chatMes = document.querySelector("#chat-mes");
-    const messages = document.querySelector("#messages");
-
-    chatForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const message = chatMes.value;
-        socket.emit("on-chat", {
-            name,
-            message
+        const socket = io();
+        let userName = "";
+        
+        // Welcome screen functionality
+        document.getElementById("start-chat").addEventListener("click", function() {
+            const nicknameInput = document.getElementById("nickname");
+            if (nicknameInput.value.trim() !== "") {
+                userName = nicknameInput.value.trim();
+                document.getElementById("welcome-screen").style.display = "none";
+                document.getElementById("chat-container").style.display = "block";
+                document.getElementById("display-name").textContent = userName;
+                document.getElementById("chat-message").focus();
+            } else {
+                alert("Please enter a nickname");
+            }
         });
-        chatMes.value = "";
-    });
+        
+        // Allow pressing Enter to submit nickname
+        document.getElementById("nickname").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("start-chat").click();
+            }
+        });
 
-    socket.on("user-chat", (message) => {
-        const chatItem = document.createElement("li");
-        chatItem.textContent = `${message.name}: ${message.message}`;
-        messages.appendChild(chatItem);
-        messages.scrollTop = messages.scrollHeight; // Tự động cuộn xuống tin nhắn mới
-        chatMes.focus(); // Optional: Focus on the input field
-    });
-</script>
+        const chatForm = document.getElementById("chat-form");
+        const chatMes = document.getElementById("chat-message");
+        const messages = document.getElementById("messages");
 
+        chatForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const message = chatMes.value.trim();
+            if (!message) return;
+            
+            // Get current time
+            const now = new Date();
+            const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                              now.getMinutes().toString().padStart(2, '0');
+            
+            socket.emit("on-chat", {
+                name: userName,
+                message,
+                time: timeString,
+                isSelf: true
+            });
+            
+            // Add message to your own screen immediately
+            addMessageToUI({
+                name: userName,
+                message,
+                time: timeString,
+                isSelf: true
+            });
+            
+            chatMes.value = "";
+        });
+
+        socket.on("user-chat", (message) => {
+            // Only add messages from others to prevent duplication
+            if (message.name !== userName) {
+                addMessageToUI(message);
+            }
+        });
+        
+        function addMessageToUI(message) {
+            const messageItem = document.createElement("li");
+            const messageClass = message.isSelf ? "my-message" : "other-message";
+            
+            messageItem.className = messageClass;
+            messageItem.innerHTML = `
+                <div class="message-container">
+                    <div class="message-sender">${message.name}</div>
+                    <div class="message-content">${message.message}</div>
+                    <div class="message-time">${message.time}</div>
+                </div>
+            `;
+            
+            messages.appendChild(messageItem);
+            messages.scrollTop = messages.scrollHeight;
+        }
+    </script>
 </body>
-
 </html>
