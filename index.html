@@ -17,28 +17,55 @@
     <!-- Welcome Screen -->
     <div class="welcome-container" id="welcome-screen">
         <div class="welcome-card">
+            <div class="welcome-logo">
+                <i class="fas fa-comments"></i>
+            </div>
             <h2>Welcome to Anonymous Chat</h2>
-            <p>Enter your nickname to start chatting</p>
+            <p>Enter your nickname to start chatting anonymously</p>
             <input type="text" id="nickname" placeholder="Your nickname..." autocomplete="off">
             <button id="start-chat">Start Chatting <i class="fas fa-arrow-right"></i></button>
         </div>
     </div>
 
     <!-- Main Chat Interface -->
-    <div class="container" id="chat-container" style="display: none;">
+    <div class="chat-wrapper" id="chat-container" style="display: none;">
         <div class="navbar">
-            <h1><i class="fas fa-comments"></i> Anonymous Box Chat</h1>
-            <p id="user-info" class="mb-0">Chatting as: <span id="display-name"></span></p>
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <i class="fas fa-comments"></i> Anonymous Box Chat
+                </div>
+                <div id="user-info">
+                    <span class="user-label">Chatting as:</span> 
+                    <span id="display-name" class="user-name"></span>
+                    <span class="time-left">
+                        <i class="fas fa-sync-alt"></i> 
+                        <span id="refresh-timer">180</span>s
+                    </span>
+                </div>
+            </div>
         </div>
 
         <div class="main">
-            <ul id="messages"></ul>
+            <div class="chat-container">
+                <ul id="messages"></ul>
+                <div id="typing-indicator" class="typing-indicator" style="display: none;">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
         </div>
 
-        <form id="chat-form">
-            <input type="text" id="chat-message" placeholder="Type your message..." autocomplete="off">
-            <button id="send-chat">Send <i class="fas fa-paper-plane"></i></button>
-        </form>
+        <div class="footer">
+            <form id="chat-form">
+                <div class="input-group">
+                    <input type="text" id="chat-message" placeholder="Type your message..." autocomplete="off">
+                    <button id="send-chat" type="submit">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Bootstrap JS Bundle with Popper -->
@@ -46,10 +73,15 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         // Auto refresh after 180 seconds
-        function reFresh() {
-            window.location.reload(true);
+        let timeLeft = 180;
+        function updateTimer() {
+            timeLeft -= 1;
+            document.getElementById("refresh-timer").textContent = timeLeft;
+            if (timeLeft <= 0) {
+                window.location.reload(true);
+            }
         }
-        window.setInterval("reFresh()", 180000);
+        setInterval(updateTimer, 1000);
 
         const socket = io();
         let userName = "";
@@ -60,7 +92,7 @@
             if (nicknameInput.value.trim() !== "") {
                 userName = nicknameInput.value.trim();
                 document.getElementById("welcome-screen").style.display = "none";
-                document.getElementById("chat-container").style.display = "block";
+                document.getElementById("chat-container").style.display = "flex";
                 document.getElementById("display-name").textContent = userName;
                 document.getElementById("chat-message").focus();
             } else {
@@ -109,11 +141,24 @@
         });
 
         socket.on("user-chat", (message) => {
-            // Only add messages from others to prevent duplication
+            // Show typing indicator briefly
             if (message.name !== userName) {
-                addMessageToUI(message);
+                showTypingIndicator();
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    addMessageToUI(message);
+                }, 1000);
             }
         });
+        
+        function showTypingIndicator() {
+            document.getElementById("typing-indicator").style.display = "flex";
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        function hideTypingIndicator() {
+            document.getElementById("typing-indicator").style.display = "none";
+        }
         
         function addMessageToUI(message) {
             const messageItem = document.createElement("li");
